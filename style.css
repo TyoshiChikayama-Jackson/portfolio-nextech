@@ -44,11 +44,6 @@ h1{
 .topnavbar a:hover{
     color: white;
 }
-.logo img{
-   z-index: 3;
-   display: block; 
-   position: relative;
-}
 .copyrightprojects{
     position: absolute;
     top: 1000px;
