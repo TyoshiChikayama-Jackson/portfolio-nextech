@@ -1,19 +1,28 @@
-/* #E63946, #F1FAEE, #A8DADC, #457B9D, #1D3557, #fff5bb  (Pink in photo: #fd3d78 ) (Green in Photo #46f862) (Blue: #0100e3) (red: #bc0202)
+/* #E63946, #F1FAEE, #A8DADC, #457B9D, #1D3557, #fff5bb  (Pink in photo: #fd3d78 ) (Green in Photo #46f862) (Blue: #0100e3) (red: #46f862)
 */
-.aboutMeSection,.achievement,.future,.project,.contact{
-    display:none;
+.aboutMeSection,.future,.project,.contact,.sectionachievements, .copyrightprojects{
+    display: none;
+}
+body{
+    background-color: black; 
+}
+h1{
+    font-size: 40px;
+    font-family: monospace;
+}
+.visuals{
+    position: relative; 
+    width: 100%;
+    display: block, 100%;
 }
 /* Nav Bar*/
-body{
-    background-color: black;
-}
 .topnavbar{
-    position: absolute; 
+    position: fixed; 
     border-radius: 20px;
     width: 99%; 
-    height: 55px;
-    bottom: 590px; 
-    background-color: rgba(0,0,0,.7);
+    height: 70px;
+    top: 0; 
+    background-color: rgba(0,0,0,.9);
     border-radius: 10px;
     color: white;
     word-spacing: 2px;
@@ -26,20 +35,31 @@ body{
 }
 .topnavbar a {
     float: left;
-    color: #46f862;
+    color: white;
     text-align: center;
-    padding: 14px 16px;
+    padding-top:20px;
     text-decoration: none;
-    font-size: 17px;
+    font-size: 19px;
 }
 .topnavbar a:hover{
     color: white;
 }
-/*.logo img{
+.logo img{
    z-index: 3;
    display: block; 
    position: relative;
-}*/
+}
+.copyrightprojects{
+    position: absolute;
+    top: 1000px;
+    width: 100px; 
+    color: white; 
+    padding: 20px;
+    padding-bottom: 30px; 
+    flex-wrap: wrap; 
+    display: flex; 
+    justify-content: space-between;
+}
 /* Nav Bar End */
 /* Title Page Start */
 .header{
@@ -54,7 +74,9 @@ body{
 .overlay-text{
     position: absolute; 
     top: 50%; 
-    left: 50%; 
+    left: 50%;
+    font-family: "Bebas Neue", sans-serif;  
+    text-shadow: 2px 6px rgba(0,0,0,1); 
     font-size: 75px;
     font-weight: 20px;
     font-family: "Staatliches"; 
@@ -62,12 +84,12 @@ body{
     text-align: center;
     z-index: 1;
     background-color: rgba(0,0,0,.6);
-    height: 305px;
+    height: 330px;
     color: white; 
     outline: #0100e3, solid, 2px;
-    top:200px;
+    top:300px;
     padding-top: 500px; 
-    padding-bottom: 85px;
+    padding-bottom: 100px;
     width: 100%;     
 }
 .overlay-text-one{
@@ -77,23 +99,27 @@ body{
     transform: translate(-50%, -50%);
     text-align: center;
     z-index: 1;
+    letter-spacing: .5px;
+    border: white, solid, 4px;
     border-radius: 20px;
     font-family:  "Saira Semi Condensed";
     color: white; 
     background-color: rgba(0,0,0,.7);
     height: 100px;
-    top:500px; 
+    top: 550px; 
     padding-top: 20px; 
     padding-bottom: 50px;
+    padding-left: 10px;
+    padding-right:10px; 
     width: 720px;
     font-size: 15px;
 }
 .himg{
     position: absolute;
     border-radius: 30px;
-    height: 633px;
-    width: 1340px;
-    display: inline-block; 
+    height: 725px; 
+    width: 99%;
+    display: block; 
 }
 /* Title Page End */
 /* About Me */
@@ -101,179 +127,258 @@ body{
     background-color: black;
 }
 .aboutMeHead{
-    color: #fd3d78 ; 
+    color: #fd3d78; 
     border: #fd3d78, solid, 2px;
     position: relative; 
-    top: 40px; 
+    top: 55px; 
     text-decoration: none; 
     border-radius: 20px;
     text-align: center;
 }
+.aboutMeHeadTwo{
+    font-family: "Pridi", serif;
+    font-weight: 600;
+    font-size: 28px;
+    color: #fd3d78 ; 
+    position: relative; 
+    text-decoration: none; 
+    text-align: center;
+    top: 40px; 
+}
 .aboutMeText{
-    font-family: "Poetsen One", sans-serif;
+    font-family: "Pridi", serif;
+    font-weight: 400;
     border-radius: 20px;
-    font-weight: 400px;
-    font-style: normal;
     color: #fd3d78; 
     background-color: black;
     border:#fd3d78, solid, 2px;
     width: 500px;
     font-size: 20px;
-    top: 200px; 
+    padding-left: 10px;
+    padding-right: 10px; 
+    padding-top: 10px;
+    padding-bottom: 10px; 
+    top: 230px; 
+    font-size: 25px ;
     position: absolute; 
     text-align: center;
     display: center;
     font-weight: 100px;
-    font-family: "Tenor Sans"; 
     margin-left: 100px; 
-}
-.aboutMeHeadTwo{
-    color: #fd3d78 ; 
-    position: relative; 
-    text-decoration: none; 
-    text-align: center;
-    top: 50px; 
-    
-}
-.aboutMeTextTwo{
-    color: #fd3d78;
-    background-color: black;
-    border:#fd3d78, solid, 2px;
-    position: absolute;
-    text-align: center; 
-    display: center;
-    font-size: 20px;
-    top: 1200px; 
-    width: 400px;
-    margin-left: 100px; 
-
 }
 .catapultPhoto{
     image-rendering: 230px;
     margin-left: 160px;
     position: absolute; 
-    height:398px;
-    width:auto; 
-    left: 670px; 
-    padding-top: 110px; 
+    height:500px;
+    border: #fd3d78, solid, 2px;
+    width:340px; 
+    left: 700px; 
+    top: 250px; 
 }; 
 /* About Me End */
 /* This is the Achievements and Skills Start*/ 
-.groupstexttimelinetwo, .awardtexttwo, .groupstexttimelinethree, .awardtextthree, .achAndSkilImgthree{
-    display:none; 
-}
-.achievements{
-    color: #46f862 ; 
+.sectionachievements{
+    color: #46f862; 
     border: #46f862, solid, 2px;
     position: relative; 
     border-radius: 20px;
-    text-decoration: none; 
     text-align: center;
     font-weight: 400px;
-    top:380px;
+    top: 40px; 
+    display: block; 
+}
+.achievements{
+    color:#46f862;
+    border: #46f862,solid, 2px; 
+    display: block;
+    position: relative;
+    top: 55px; 
+    text-decoration: none; 
+    border-radius: 20px;
+    text-align: center;
 }
 .groupsOfAchievementsAndSkills{
     color:#46f862; 
-    position: relative; 
-    top: 500px; 
-    width:  100%; 
-    height: 300px; 
+    font-family: "Pridi", serif;
     font-size: 17px;
+    font-weight: 200;
+    position: relative;
+    top: 100px; 
+    width: 100%; 
+    height: 300px; 
     bottom: 100px; 
     text-decoration: none;
 }
-.groupstexttimeline{
+.youthOfTheDay{
     position: relative; 
     display: inline; 
-    margin: 10px;
     text-align: center; 
     height: 100px; 
     bottom: 150px; 
-    left: 80px; 
+    left: 60px; 
 }
-.groupstexttimelineoneone{
+.youthOfTheDayImg{
+    position: relative;
+    display: inline-block; 
+    margin: -10px;
+    width: 115.2px; 
+    height: 100px;
+    top : 100px; 
+    right: 140px;
+}
+.varsityBasketballManager{
     position: relative; 
-    display: inline; 
-    margin: 10px;
+    display: inline;
     text-align: center; 
     height: 100px; 
-    bottom: 150px; 
-    left: 80px; 
+    bottom: 152px; 
+    left:10px;  
 }
-.groupstexttimelinetwotwo{
+.varsityBasketballManagerImg{
+    position: relative;
+    display: inline-block; 
+    margin: 10px;
+    width: 115.2px; 
+    height: 105px;
+    top : 120px; 
+    right : 210px;
+}
+.nationalHonorsSociety{
     position: relative; 
     display: inline; 
-    margin: 10px;
     text-align: center; 
     height: 100px; 
-    bottom: 150px; 
-    left: 80px; 
+    bottom: 152px; 
+    right: 65px; 
 }
-.groupstexttimelinethreethree{
+.nationalHonorsSocietyImg{
+    position: relative;
+    display: inline-block; 
+    width: 115.2px; 
+    height: 120px;
+    top : 120px; 
+    right : 190px;
+}
+.businessClubPresident{
+    position: relative; 
+    text-align: center; 
+    bottom: 182px;  
+    width: 350px; 
+    left: 950px; 
+}
+.businessClubPresidentImg{
+    position: relative;
+    display: block; 
+    margin: 10px;
+    width: 140px; 
+    height: 110px;
+    bottom: 10px; 
+    left: 120px; 
+   
+}
+/* This is the section start for the extra java */
+.varsityBasketballManagerOne,.nationalHonorsSocietyOne, .businessClubPresidentOne{
+    display: none;
+}
+.adobePortfolioCloud{
     position: relative; 
     display: inline; 
-    margin: 10px;
     text-align: center; 
-    height: 100px; 
-    bottom: 150px; 
-    left: 80px; 
-}
-.groupstexttimelinefourfour{
-    position: relative; 
-    display: inline; 
-    margin: 10px;
-    text-align: center; 
-    height: 100px; 
-    bottom: 150px; 
-    left: 80px; 
-}
-.groupstext{
-    position: relative; 
-    top: 100px;  
+    top:150px;
     height: 50px; 
-    display: inline; 
-    left: 200px; 
-    top: 300px; 
-    border-spacing: 20px; 
-    justify-self: center;
-    text-decoration: none;
+    left: 100px;
+    margin: 10px;
 }
-.achAndSkilImg{
+.adobeLightroom{
+    position: relative; 
+    display: inline; 
+    text-align: center; 
+    position: relative; 
+    top:150px;  
+    height: 50px; 
+    left: 125px;  
+    margin: 10px;
+}
+.musician{
+    position: relative; 
+    display: inline; 
+    text-align: center; 
+    position: relative; 
+    top: 150px;  
+    height: 50px; 
+    left: 125px;  
+    margin: 10px;
+}
+.selfTaughtPhotographer{
+    position: relative; 
+    display: inline; 
+    text-align: center; 
+    position: relative; 
+    top:150px;  
+    height: 50px; 
+    left: 50px;  
+    margin: 10px;
+}
+.adobePortfolioCloudImg{
     position: relative;
     display: inline-block; 
     margin: -30px;
     width: 115.2px; 
     height: 100px;
     top : 100px; 
-    right : 140px;
+    right : 110px;
 }
-.achAndSkilImgTwo{
+.adobeLightroomImg{
     position: relative;
     display: inline-block; 
     margin: -25px;
-    width: 150px; 
-    height: 120px;
-    top : 100px; 
-    right : 120px;
+    width: 120px; 
+    height: 100px;
+    top : 105px; 
+    right : 100px;
+    border-radius: 15px;
 }
+.selfTaughtPhotographerImg{
+    position: relative;
+    display: inline-block; 
+    margin: -25px;
+    width: 120px; 
+    height: 100px;
+    top : 105px; 
+    right : 120px;
+    border-radius: 15px;
+}
+.musicianImg{
+    position: relative;
+    display: inline-block; 
+    margin: -25px;
+    width: 190px; 
+    height: 170px;
+    top : 130px; 
+    right : 230px;
+    border-radius: 15px;
+}
+/* End */
 .skillsdescription{
-    border:#46f862,solid, 2px;
+    border:rgb(70, 248, 98),solid, 3px;
+    box-shadow: 1px 2px rgba(70,284,98,1); 
     border-radius: 20px;
     position: relative;
     width: 75%; 
     height: 300px; 
-    top: 250px;
-    left: 170px; 
+    bottom: 70px; 
+    left: 170px;
 }
-.groupstexttimelineone{
+.youthOfTheDayOne{
     color: #46f862;
     font-size: 30px;
     position: relative;
     left: 40px; 
-    top: 10px; 
-
 }
 .awardtext{
+    font-family: "Pridi", serif;
+    font-weight: 200;
     position: relative;
     color: #46f862;
     width: 600px; 
@@ -282,27 +387,33 @@ body{
     font-size: 20px;
 }
 .achAndSkilImgaward{
+    font-family: "Pridi", serif;
+    font-weight: 200;
+    word-spacing: 1px;
+    line-height: 2px;
     position: relative;
     margin: -30px;
     width: 115.2px; 
-    height: 100px;
-    top : 100px; 
-    left: 100px; 
+    height: 110px;
+    top : 115px; 
+    right: 200px; 
 }
-.groupstexttimelinetwo{
+.varsityBasketballManagerOne{
     color: #46f862;
     font-size: 30px;
     position: relative;
-    left: 210px; 
-    bottom: 55px; 
-    width: 900px; 
+    left: 212px; 
+    bottom: 363px; 
+    width: 900px;
 }
 .awardtexttwo{
+    font-family: "Pridi", serif;
+    font-weight: 200;
     position: relative;
     color: #46f862;
+    top: 20px; 
     width: 600px; 
-    top: 55px; 
-    left: 215px; 
+    left: 250px; 
     font-size: 20px;
 }
 .achAndSkilImgawardtwo{
@@ -310,23 +421,25 @@ body{
     margin: -30px;
     width: 115.2px; 
     height: 100px;
-    top : 125px; 
-    right: 380px; 
+    top : 100px; 
+    right: 350px; 
 }
-.groupstexttimelinethree{
+.nationalHonorsSocietyOne{
     color: #46f862;
     font-size: 30px;
     position: relative;
-    left: 215px; 
-    bottom: 90px; 
-    width: 900px; 
+    left: 212px; 
+    bottom: 398px; 
+    width: 900px;
 }
 .awardtextthree{
+    font-family: "Pridi", serif;
+    font-weight: 200;
     position: relative;
     color: #46f862;
     width: 600px; 
-    top: 55px; 
-    left: 210px; 
+    top: 20px; 
+    left: 250px; 
     font-size: 20px;
 }
 .achAndSkilImgthree{
@@ -334,56 +447,214 @@ body{
     margin: -30px;
     width: 115.2px; 
     height: 135px;
-    top : 150px; 
-    right: 385px; 
+    top : 135px; 
+    right: 350px; 
+}
+.businessClubPresidentOne{
+    color: #46f862;
+    font-size: 30px;
+    position: relative;
+    left: 210px; 
+    bottom: 373px;
+    width: 900px; 
+}
+.awardtextfour{
+    font-family: "Pridi", serif;
+    font-weight: 200;
+    position: relative;
+    color: #46f862;
+    width: 600px; 
+    top:20px;
+    left: 250px; 
+    font-size: 20px;
+}
+.achAndSkilImgFour{
+    position: relative;
+    margin: -30px;
+    width: 140px; 
+    height: 110px;
+    top : 110px; 
+    right: 350px; 
+}
+.icons{
+    position: relative; 
+    border: #46f862, solid, 2px; 
+    border-radius: 20px;
+    width: 50%;
+    height:auto; 
+    left: 360px;
+
+}
+.html-css-javascript{
+    position: relative;
+    top: 100px; 
+}
+.html-css-javascript-text{
+    position: relative;
+    font-family: "Pridi", serif;
+    font-weight: 200;
+    top: 325px;
+    height: 100px;
+    font-size: 2px; 
+    color: white;
+}
+.html{
+    position: relative;
+    bottom: 205px; 
+    width: 100px; 
+    left: 470px; 
+}
+.css{
+    position: relative;
+    bottom: 275px; 
+    width: 100px; 
+    left: 660px; 
+}
+.javascript{
+    position: relative;
+    bottom: 345px; 
+    width: 100px; 
+    left: 800px; 
+    font-size: 30px;
 }
 /* Future Start */
 .futures{
-    border: #0100e3, solid, 3px;
-    color: #0100e3; 
+    border: #007bff, solid, 3px;
+    color:#007bff;
     border-radius: 20px;
     position: relative;
-    top: 1000px; 
+    top: 55px; 
     text-align: center;
 }
 .futuresection{
     position: relative;
-    color: #0100e3; 
-    top: 1000px; 
+    color: #007bff;  
+    top: 30px; 
     text-align: center;
+    font-family: "Pridi", serif;
+    font-weight: 600;
+    font-size: 25px;
 }
-.futuretext{
-    display:inline-block; 
-    justify-self: auto;
-    border: #0100e3, solid, 2px;
+.aspirations{
+    position: relative; 
+    top: 20px; 
+    height: 500px; 
+}
+.mba{
+    position: relative;
+    font-family: "Pridi", serif;
+    font-weight: 600;
+    color: #007bff;
+    border: #007bff, solid, 1px;
     border-radius: 20px;
-    height: 70px;
+    height: 60px;
     width: 300px; 
-    padding-top: 40px; 
+    top: 450px; 
     font-size: 20px;
     text-align: center;
     margin:10px;
 }
+.entre{
+    position: relative;
+    font-family: "Pridi", serif;
+    font-weight: 600;
+    color: #007bff;
+    border: #007bff, solid, 2px;
+    border-radius: 20px;
+    height: 60px;
+    width: 300px; 
+    left: 275px; 
+    top: 300px; 
+    padding-top: 15px; 
+    font-size: 22px;
+    text-align: center;
+    margin:10px;
+    bottom: 80px; 
+}
+.pli{
+    position: relative;
+    font-family: "Pridi", serif;
+    font-weight: 600;
+    color: #007bff;
+    border: #007bff, solid, 3px;
+    border-radius: 20px;
+    height: 60px;
+    width: 300px; 
+    left: 525px; 
+    padding-top: 20px;
+    padding-bottom: 30px;
+    font-size: 24px;
+    text-align: center;
+    margin:10px;
+    top: 90px; 
+}
+.sum{
+    position: relative;
+    font-family: "Pridi", serif;
+    font-weight: 600;
+    color: #007bff;
+    border: #007bff, solid, 4px;
+    border-radius: 20px;
+    height: 60px;
+    width: 300px; 
+    left:775px;
+    bottom: 175px; 
+    padding-top: 40px; 
+    padding-bottom: 20px;  
+    font-size: 26px;
+    text-align: center;
+    margin:10px;
+}
+.sbbo{
+    position: relative;
+    font-family: "Pridi", serif;
+    font-weight: 600;
+    color: gold;
+    border: gold, solid, 5px;
+    border-radius: 20px;
+    height: 60px;
+    width: 300px; 
+    left: 1030px; 
+    bottom: 475px; 
+    padding-top: 20px; 
+    padding-bottom: 60px;  
+    font-size: 28px;
+    text-align: center;
+    margin:10px;
+}
+.grpahicsForFuture{
+    position: relative; 
+    width: 100px; 
+}
 /* Futures End */
 /* Projects Start */
+.project{
+    height: 500px;
+}
 .projects{
-    border: #fd3d78, solid, 3px;
+    border: #fd3d78, solid, 3px; 
     color: #fd3d78; 
     position: relative;
-    top: 1000px; 
+    top: 55px; 
+    max-height: 100px;
+    border-radius: 20px;
     text-align: center;
 }
 .projectstext{
     position: relative;
     color:#fd3d78; 
     width: 50%; 
-    top: 1000px; 
+    max-height: 100px;
+    top: 60px; 
     font-size: 20px;
     left: 550px; 
     text-align: center;
 }
 .photography{
+    font-family: "Pridi", serif;
+    font-weight: 400;
     position: relative;
+    border-radius: 20px;
     font-size: 30px; 
     text-align: center;
     width: 1000px;
@@ -395,74 +666,57 @@ body{
 .photo{
     position: relative;
     width: 350px; 
-    height: auto; 
+    height: 175px; 
     bottom: 200px; 
     right: 200px; 
 }
-.yoshiporfolio{
-    position: relative;
-    bottom: 250px; 
-}
 .coding{
-    position: inherit;
+    font-family: "Pridi", serif;
+    font-weight: 400;
+    position: relative;
+    border-radius: 20px;
+    left: 175px;
     font-size: 30px; 
     text-align: center;
     width: 1000px;
-    top: 20px; 
-    height: 450px; 
+    top: 300px; 
+    height: 475px; 
     right: 375px;
+    color:#fd3d78;
     border: #fd3d78, solid, 2px;
 }
 .photoOne{
     position: relative;
-    display: inline-block;
     width: 350px; 
     height: 175px;
-    right: 400px; 
-    bottom: 375px; 
+    height: 175px; 
+    bottom: 100px;
+    left: 300px; 
+
 }
 .photoTwo{
     position: relative;
     width: 350px; 
     height: 175px; 
-    bottom: 555px; 
+    bottom: 90px; 
+    left: 350px; 
     margin-bottom: 10px;
 }
 .photoThree{
     position: relative;
-    width: 350px; 
+    width: 352px; 
     height: 175px;
-    bottom: 540px; 
-    right: 200px;
+    top: 100px; 
+    right: 6px; 
     margin-bottom: 10px;
 }
-.photoFour{
-    position: relative;
-    width: 350px; 
-    height: 175px;
-    bottom: 600px; 
-    right: 200px;
-    margin-bottom: 10px;
-}
-.videography{
-    position: relative;
-    font-size: 30px; 
-    text-align: center;
-    width: 1000px; 
-    bottom: 370px;
-    height: 300px; 
-    right: 375px; 
-    border: #fd3d78, solid, 2px;
-}
-
-/* 
+/* The Graphic */
  .notextall{ 
     position: relative;
     text-align: center; 
-    font-size: 20px;
     width: .05px; 
-    bottom: 500px; 
-    margin-left: 600px; 
+    bottom: 800px;
+    left: 275px; 
     rotate: 90deg;
     scale: 1;
 }
@@ -698,4 +952,15 @@ body{
     width: 30px;
     height: .1px; 
     bottom: 207px;
-}*/
+}
+#animated{
+    animation: fade 1.7s forwards;
+}
+@keyframes fade {
+    0%{
+        opacity: 0%;
+    }
+    100%{
+        opacity: 100%;
+    }
+}
