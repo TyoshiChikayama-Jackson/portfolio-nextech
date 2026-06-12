@@ -160,12 +160,14 @@
         .chart-svg-wrap {
             position: relative;
             width: 100%;
+            overflow: visible;
         }
 
         .chart-svg-wrap svg {
             display: block;
             width: 100%;
             height: auto;
+            overflow: visible;
         }
 
         /* Milestone labels (absolutely positioned over chart) */
@@ -181,7 +183,7 @@
             padding: 2px 7px;
             white-space: nowrap;
             transform: translateX(-50%);
-            pointer-events: none;
+            pointer-events: auto;
         }
 
         .chart-milestone.pink {
@@ -565,72 +567,37 @@
                 <a href="https://linkedin.com/in/tyoshi-chikayama-jackson" target="_blank" rel="noopener">linkedin.com/in/tyoshi-chikayama-jackson</a>
             </div>
 
-            <!-- SVG Career Chart -->
-            <div class="chart-svg-wrap">
-                <svg viewBox="0 0 1000 260" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <defs>
-                        <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%"   stop-color="#46f862" stop-opacity="0.22"/>
-                            <stop offset="100%" stop-color="#46f862" stop-opacity="0"/>
-                        </linearGradient>
-                    </defs>
-
-                    <!-- Horizontal gridlines -->
+            <!-- SVG Career Chart — JS-driven, draggable points -->
+            <div class="chart-svg-wrap" id="chartWrap">
+                <svg id="careerSvg" viewBox="0 0 1000 260" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Static: gridlines -->
                     <line x1="0" y1="52"  x2="1000" y2="52"  stroke="#1e2a38" stroke-width="1"/>
                     <line x1="0" y1="104" x2="1000" y2="104" stroke="#1e2a38" stroke-width="1"/>
                     <line x1="0" y1="156" x2="1000" y2="156" stroke="#1e2a38" stroke-width="1"/>
                     <line x1="0" y1="208" x2="1000" y2="208" stroke="#1e2a38" stroke-width="1"/>
-
-                    <!-- "You are here" vertical dotted cursor — mid 2026 = x≈417 -->
-                    <line x1="417" y1="0" x2="417" y2="260" stroke="#4d6fff" stroke-width="1.5" stroke-dasharray="4 4"/>
-
-                    <!-- Year divider tick lines (2024–2029, spacing=167) -->
+                    <!-- Static: year dividers -->
                     <line x1="83"  y1="0" x2="83"  y2="260" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
                     <line x1="250" y1="0" x2="250" y2="260" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
                     <line x1="417" y1="0" x2="417" y2="260" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
                     <line x1="583" y1="0" x2="583" y2="260" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
                     <line x1="750" y1="0" x2="750" y2="260" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
                     <line x1="917" y1="0" x2="917" y2="260" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
-
-                    <!-- Gradient fill under line -->
-                    <polygon
-                        points="0,260 83,235 250,200 380,165 417,158 583,115 680,88 917,35 1000,260"
-                        fill="url(#chartGrad)"/>
-
-                    <!-- Main ascending line -->
-                    <polyline
-                        points="0,260 83,235 250,200 380,165 583,115 680,88 917,35"
-                        fill="none"
-                        stroke="#46f862"
-                        stroke-width="2.5"
-                        stroke-linejoin="round"
-                        stroke-linecap="round"/>
-
-                    <!-- Milestone dots (x positions match label left% below) -->
-                    <!-- 2024 PoliTech: x=83  (8.3%)  -->
-                    <circle class="milestone-dot" cx="83"  cy="235" r="5" fill="#fd3d78" stroke="#060a0f" stroke-width="2" data-target="v2-ventures"/>
-                    <!-- 2024 CS Intern: x=250 (25%)   -->
-                    <circle class="milestone-dot" cx="250" cy="200" r="5" fill="#46f862" stroke="#060a0f" stroke-width="2" data-target="v2-experience"/>
-                    <!-- 2025 BOP/UE: x=380  (38%)   -->
-                    <circle class="milestone-dot" cx="380" cy="165" r="5" fill="gold"    stroke="#060a0f" stroke-width="2" data-target="v2-achievements"/>
-                    <!-- 2026 Mktg Intern: x=500 (50%) -->
-                    <circle class="milestone-dot" cx="500" cy="128" r="5" fill="#46f862" stroke="#060a0f" stroke-width="2" data-target="v2-experience"/>
-                    <!-- 2026 TA/GES: x=600  (60%)   -->
-                    <circle class="milestone-dot" cx="600" cy="108" r="5" fill="#46f862" stroke="#060a0f" stroke-width="2" data-target="v2-achievements"/>
-                    <!-- 2029 Graduation: x=917 (91.7%) -->
-                    <circle class="milestone-dot" cx="917" cy="35"  r="5" fill="#fd3d78" stroke="#060a0f" stroke-width="2" data-target="v2-education"/>
+                    <!-- Static: "You are here" cursor -->
+                    <line x1="417" y1="0" x2="417" y2="260" stroke="#4d6fff" stroke-width="1.5" stroke-dasharray="4 4"/>
+                    <!-- Dynamic layer — JS writes into this group -->
+                    <g id="chartDynamic"></g>
                 </svg>
 
-                <!-- Milestone labels — interactive buttons (left% = dot cx / 10) -->
-                <button class="chart-milestone pink"  style="left:8.3%; top: calc(90% - 28px);" data-target="v2-ventures">2024 — PoliTech Founded</button>
-                <button class="chart-milestone"       style="left:25%;  top: calc(77% - 28px);" data-target="v2-experience">2024 — CS Intern</button>
-                <button class="chart-milestone gold"  style="left:38%;  top: calc(63% - 28px);" data-target="v2-achievements">2025 — BOP Scholar · UE Finalist</button>
-                <button class="chart-milestone"       style="left:50%;  top: calc(49% - 28px);" data-target="v2-experience">2026 — Marketing Intern</button>
-                <button class="chart-milestone"       style="left:60%;  top: calc(41% - 28px);" data-target="v2-achievements">2026 — TA &amp; GES Delegate</button>
-                <!-- "You are here" cursor label — mid 2026 = 41.7% -->
+                <!-- Milestone label buttons — JS positions these -->
+                <button class="chart-milestone pink"       id="mlabel-0" data-target="v2-ventures">2024 — PoliTech Founded</button>
+                <button class="chart-milestone"            id="mlabel-1" data-target="v2-experience">2024 — CS Intern</button>
+                <button class="chart-milestone gold"       id="mlabel-2" data-target="v2-achievements">2025 — BOP Scholar · UE Finalist</button>
+                <button class="chart-milestone"            id="mlabel-3" data-target="v2-experience">2026 — Marketing Intern</button>
+                <button class="chart-milestone"            id="mlabel-4" data-target="v2-achievements">2026 — TA &amp; GES Delegate</button>
+                <button class="chart-milestone pink right-anchor" id="mlabel-5" data-target="v2-education">2029 — Graduation</button>
+
+                <!-- "You are here" cursor label -->
                 <span class="chart-cursor-label" style="left:41.7%; bottom:4px;">6/12/2026 &nbsp;·&nbsp; NOW</span>
-                <!-- Graduation: cx=917 = 91.7% — use right-anchor to avoid clipping -->
-                <button class="chart-milestone pink right-anchor" style="left:auto; right:6%; top: calc(13% - 28px);" data-target="v2-education">2029 — Graduation</button>
 
                 <!-- X-axis year labels -->
                 <div class="chart-xaxis">
@@ -827,7 +794,227 @@
     </div>
 
     <script>
-        // ── Smooth scroll to section ──
+    (() => {
+        // ─────────────────────────────────────────
+        // CHART DATA  (cx fixed, cy draggable)
+        // viewBox: 1000 × 260, y range 10–250
+        // ─────────────────────────────────────────
+        const Y_MIN = 10, Y_MAX = 250;
+        const GREEN = '#46f862', RED = '#e24b4a';
+
+        // anchor point before milestones (not draggable)
+        const ANCHOR_L = { cx: 0,    cy: 260, fixed: true };
+        // anchor point after milestones (not draggable)
+        const ANCHOR_R = { cx: 1000, cy: 260, fixed: true };
+
+        const milestones = [
+            { cx: 83,  cy: 235, color: '#fd3d78', target: 'v2-ventures',     labelId: 'mlabel-0' },
+            { cx: 250, cy: 200, color: GREEN,      target: 'v2-experience',   labelId: 'mlabel-1' },
+            { cx: 380, cy: 165, color: 'gold',     target: 'v2-achievements', labelId: 'mlabel-2' },
+            { cx: 500, cy: 128, color: GREEN,      target: 'v2-experience',   labelId: 'mlabel-3' },
+            { cx: 600, cy: 108, color: GREEN,      target: 'v2-achievements', labelId: 'mlabel-4' },
+            { cx: 917, cy: 35,  color: '#fd3d78',  target: 'v2-education',    labelId: 'mlabel-5' },
+        ];
+
+        // Full point list including anchors for segment drawing
+        function allPoints() {
+            return [ANCHOR_L, ...milestones, ANCHOR_R];
+        }
+
+        // ─────────────────────────────────────────
+        // SVG helpers
+        // ─────────────────────────────────────────
+        const svg    = document.getElementById('careerSvg');
+        const dynG   = document.getElementById('chartDynamic');
+        const wrap   = document.getElementById('chartWrap');
+
+        function svgEl(tag, attrs) {
+            const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+            for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
+            return el;
+        }
+
+        // Convert a DOM clientY to SVG y-coordinate
+        function clientYtoSvgY(clientY) {
+            const pt = svg.createSVGPoint();
+            pt.y = clientY;
+            // use inverse CTM — only care about y
+            const ctm = svg.getScreenCTM();
+            return (clientY - ctm.f) / ctm.d;
+        }
+
+        // ─────────────────────────────────────────
+        // DRAW
+        // ─────────────────────────────────────────
+        function draw() {
+            dynG.innerHTML = '';
+            const pts = allPoints();
+
+            // Draw fill polygons per segment (between milestones + anchors)
+            // Segments: L→M0, M0→M1, …, M5→R  (but L and R are at cy=260, floor)
+            for (let i = 0; i < pts.length - 1; i++) {
+                const a = pts[i], b = pts[i + 1];
+                // rising = b.cy < a.cy (lower y = higher on screen)
+                const rising = b.cy <= a.cy;
+                const fillColor = rising ? GREEN : RED;
+                const poly = svgEl('polygon', {
+                    points: `${a.cx},${a.cy} ${b.cx},${b.cy} ${b.cx},260 ${a.cx},260`,
+                    fill: fillColor,
+                    opacity: '0.10',
+                });
+                dynG.appendChild(poly);
+            }
+
+            // Draw line segments between consecutive points (milestones only, not anchors)
+            // Line goes: M0 → M1 → … → M5
+            for (let i = 1; i < pts.length - 1; i++) {
+                if (i === 1) {
+                    // first segment from anchor-left to M0 — draw as a lead-in
+                    const a = pts[0], b = pts[1];
+                    const rising = b.cy <= a.cy;
+                    dynG.appendChild(svgEl('line', {
+                        x1: a.cx, y1: a.cy, x2: b.cx, y2: b.cy,
+                        stroke: rising ? GREEN : RED,
+                        'stroke-width': '2.5',
+                        'stroke-linecap': 'round',
+                        opacity: '0.35',
+                    }));
+                }
+                if (i < pts.length - 2) {
+                    const a = pts[i], b = pts[i + 1];
+                    const rising = b.cy <= a.cy;
+                    dynG.appendChild(svgEl('line', {
+                        x1: a.cx, y1: a.cy, x2: b.cx, y2: b.cy,
+                        stroke: rising ? GREEN : RED,
+                        'stroke-width': '2.5',
+                        'stroke-linecap': 'round',
+                        'stroke-linejoin': 'round',
+                    }));
+                }
+            }
+
+            // Draw milestone dots (on top)
+            milestones.forEach((m, idx) => {
+                const c = svgEl('circle', {
+                    cx: m.cx, cy: m.cy, r: '6',
+                    fill: m.color,
+                    stroke: '#060a0f',
+                    'stroke-width': '2',
+                    class: 'milestone-dot',
+                    style: 'cursor: grab;',
+                    'data-idx': idx,
+                });
+                dynG.appendChild(c);
+            });
+
+            // Sync HTML labels
+            positionLabels();
+        }
+
+        // ─────────────────────────────────────────
+        // LABEL POSITIONING
+        // Maps SVG coords → % of wrapper dimensions
+        // ─────────────────────────────────────────
+        function positionLabels() {
+            // We need the rendered SVG dimensions to map coords
+            const svgRect = svg.getBoundingClientRect();
+            const wrapRect = wrap.getBoundingClientRect();
+            const svgVW = 1000, svgVH = 260; // viewBox dims
+
+            milestones.forEach((m, idx) => {
+                const lbl = document.getElementById(m.labelId);
+                if (!lbl) return;
+
+                // SVG coord → fraction of viewBox
+                const xFrac = m.cx / svgVW;
+                const yFrac = m.cy / svgVH;
+
+                // Map to pixel position within wrapper
+                const svgOffsetTop = svgRect.top - wrapRect.top;
+                const pxX = xFrac * svgRect.width;
+                const pxY = svgOffsetTop + yFrac * svgRect.height;
+
+                // Label sits above the dot; label height ~20px + 8px caret
+                const LABEL_H = 28;
+
+                if (idx === 5) {
+                    // right-anchor: pin from right edge
+                    lbl.style.left   = 'auto';
+                    lbl.style.right  = `${wrapRect.width - pxX - 10}px`;
+                    lbl.style.top    = `${pxY - LABEL_H - 8}px`;
+                    lbl.style.transform = 'none';
+                } else {
+                    lbl.style.left      = `${pxX}px`;
+                    lbl.style.right     = 'auto';
+                    lbl.style.top       = `${pxY - LABEL_H - 8}px`;
+                    lbl.style.transform = 'translateX(-50%)';
+                }
+            });
+        }
+
+        // ─────────────────────────────────────────
+        // DRAG
+        // ─────────────────────────────────────────
+        const DRAG_THRESHOLD = 4; // px in SVG coords
+        let dragging = null; // { idx, startSvgY, startCy }
+        let dragMoved = false;
+
+        function onDragStart(e, idx) {
+            e.preventDefault();
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            dragging = { idx, startClientY: clientY, startCy: milestones[idx].cy };
+            dragMoved = false;
+            document.body.style.cursor = 'grabbing';
+            document.body.style.userSelect = 'none';
+        }
+
+        function onDragMove(e) {
+            if (!dragging) return;
+            e.preventDefault();
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            const svgRect = svg.getBoundingClientRect();
+            const scaleY  = 260 / svgRect.height; // SVG units per screen px
+            const deltaSvg = (clientY - dragging.startClientY) * scaleY;
+
+            if (Math.abs(deltaSvg) > DRAG_THRESHOLD) dragMoved = true;
+            if (!dragMoved) return;
+
+            const newCy = Math.max(Y_MIN, Math.min(Y_MAX, dragging.startCy + deltaSvg));
+            milestones[dragging.idx].cy = newCy;
+            draw();
+        }
+
+        function onDragEnd(e) {
+            if (!dragging) return;
+            document.body.style.cursor = '';
+            document.body.style.userSelect = '';
+
+            if (!dragMoved) {
+                // treat as click → scroll
+                scrollToSection(milestones[dragging.idx].target);
+            }
+            dragging = null;
+            dragMoved = false;
+        }
+
+        // Attach drag listeners to dynamic dots (re-attached after each draw via event delegation)
+        dynG.addEventListener('mousedown', e => {
+            const dot = e.target.closest('[data-idx]');
+            if (dot) onDragStart(e, parseInt(dot.dataset.idx));
+        });
+        dynG.addEventListener('touchstart', e => {
+            const dot = e.target.closest('[data-idx]');
+            if (dot) onDragStart(e, parseInt(dot.dataset.idx));
+        }, { passive: false });
+
+        document.addEventListener('mousemove',  onDragMove);
+        document.addEventListener('touchmove',  onDragMove, { passive: false });
+        document.addEventListener('mouseup',    onDragEnd);
+        document.addEventListener('touchend',   onDragEnd);
+
+        // ─────────────────────────────────────────
+        // LABEL CLICK → SCROLL (for non-drag clicks)
+        // ─────────────────────────────────────────
         function scrollToSection(targetId) {
             const el = document.getElementById(targetId);
             if (!el) return;
@@ -837,17 +1024,16 @@
             window.scrollTo({ top, behavior: 'smooth' });
         }
 
-        // Milestone label buttons
         document.querySelectorAll('.chart-milestone[data-target]').forEach(btn => {
-            btn.addEventListener('click', () => scrollToSection(btn.dataset.target));
+            btn.addEventListener('click', function(e) {
+                // only scroll if not just finished a drag
+                if (!dragMoved) scrollToSection(this.dataset.target);
+            });
         });
 
-        // SVG milestone dots
-        document.querySelectorAll('.milestone-dot[data-target]').forEach(dot => {
-            dot.addEventListener('click', () => scrollToSection(dot.dataset.target));
-        });
-
-        // ── Active toolbar tab on scroll ──
+        // ─────────────────────────────────────────
+        // ACTIVE TOOLBAR TABS ON SCROLL
+        // ─────────────────────────────────────────
         const sections = [
             { id: 'v2-hero',         tab: 'tab-hero' },
             { id: 'v2-education',    tab: 'tab-education' },
@@ -872,6 +1058,15 @@
 
         window.addEventListener('scroll', updateActiveTabs, { passive: true });
         updateActiveTabs();
+
+        // ─────────────────────────────────────────
+        // INIT
+        // ─────────────────────────────────────────
+        draw();
+        // Reposition labels after fonts/layout settle
+        window.addEventListener('load', positionLabels);
+        window.addEventListener('resize', () => { draw(); positionLabels(); });
+    })();
     </script>
 </body>
 </html>
