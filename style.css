@@ -87,11 +87,23 @@ body {
 }
 
 /* ════════════════════════════════════════
-   INDEX — Hero
+   INDEX — Hero (scoped to hero-page only)
 ════════════════════════════════════════ */
+
+/* Lock the hero page to exactly one viewport — no scroll */
+body.hero-page {
+    overflow: hidden;
+    height: 100dvh;
+}
+
+body.hero-page .hero-page-content {
+    padding-top: 0;
+    height: 100dvh;
+}
+
 .hero {
     position: relative;
-    height: calc(100vh - 60px);
+    height: 100dvh;
     display: flex;
     flex-direction: column;
     align-items: center;
