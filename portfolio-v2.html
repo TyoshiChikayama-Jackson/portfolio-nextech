@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TCJ — Portfolio Terminal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Staatliches&family=Bebas+Neue&family=Saira+Semi+Condensed:wght@100;200;300;400;500;600;700;800;900&family=Pridi:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* ── Terminal reset for this page ── */
+        body { background: #060a0f; }
+
+        .page-content { padding-top: 46px; }
+
+        /* ══════════════════════════════════
+           TERMINAL TOOLBAR (sub-nav)
+        ══════════════════════════════════ */
+        .term-toolbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            z-index: 200;
+            background: #0b1017;
+            border-bottom: 1px solid #1e2a38;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 20px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+        .term-toolbar::-webkit-scrollbar { display: none; }
+
+        .term-back {
+            font-family: "Saira Semi Condensed", sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: rgba(255,255,255,0.35);
+            text-decoration: none;
+            white-space: nowrap;
+            margin-left: auto;
+            transition: color 0.15s;
+        }
+        .term-back:hover { color: rgba(255,255,255,0.75); }
+
+        .term-ticker {
+            font-family: "Saira Semi Condensed", sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: #46f862;
+            margin-right: 12px;
+            white-space: nowrap;
+        }
+
+        .term-divider {
+            width: 1px;
+            height: 22px;
+            background: #1e2a38;
+            margin: 0 6px;
+        }
+
+        .term-tab {
+            font-family: "Saira Semi Condensed", sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: rgba(255,255,255,0.5);
+            border: 1px solid rgba(255,255,255,0.18);
+            border-radius: 20px;
+            padding: 4px 16px;
+            white-space: nowrap;
+            transition: background 0.15s, color 0.15s, border-color 0.15s;
+        }
+        .term-tab:hover {
+            color: #fff;
+            border-color: rgba(255,255,255,0.45);
+        }
+        .term-tab.active {
+            background: #46f862;
+            color: #000;
+            border-color: #46f862;
+            font-weight: 700;
+        }
+
+        /* ══════════════════════════════════
+           CHART HERO
+        ══════════════════════════════════ */
+        .chart-hero {
+            position: relative;
+            background: #060a0f;
+            padding: 32px 28px 0;
+            border-bottom: 1px solid #1e2a38;
+        }
+
+        .chart-meta-row {
+            display: flex;
+            align-items: baseline;
+            gap: 16px;
+            margin-bottom: 6px;
+            flex-wrap: wrap;
+        }
+
+        .chart-symbol {
+            font-family: "Staatliches", sans-serif;
+            font-size: clamp(36px, 6vw, 64px);
+            letter-spacing: 3px;
+            color: #fff;
+            line-height: 1;
+        }
+
+        .chart-name {
+            font-family: "Saira Semi Condensed", sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            color: rgba(255,255,255,0.5);
+            letter-spacing: 1px;
+        }
+
+        .chart-price {
+            font-family: "Saira Semi Condensed", sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: #46f862;
+            margin-left: auto;
+        }
+
+        .chart-change {
+            font-family: "Saira Semi Condensed", sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: #46f862;
+            background: rgba(70, 248, 98, 0.12);
+            border-radius: 4px;
+            padding: 2px 8px;
+        }
+
+        .chart-contact-row {
+            font-family: "Saira Semi Condensed", sans-serif;
+            font-size: 13px;
+            color: rgba(255,255,255,0.35);
+            letter-spacing: 0.5px;
+            margin-bottom: 18px;
+        }
+
+        .chart-contact-row a {
+            color: #4d6fff;
+            text-decoration: none;
+        }
+        .chart-contact-row a:hover { text-decoration: underline; }
+
+        /* SVG chart wrapper */
+        .chart-svg-wrap {
+            position: relative;
+            width: 100%;
+        }
+
+        .chart-svg-wrap svg {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        /* Milestone labels (absolutely positioned over chart) */
+        .chart-milestone {
+            position: absolute;
+            font-family: "Saira Semi Condensed", sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            color: #000;
+            background: #46f862;
+            border-radius: 4px;
+            padding: 2px 7px;
+            white-space: nowrap;
+            transform: translateX(-50%);
+            pointer-events: none;
+        }
+
+        .chart-milestone.pink {
+            background: #fd3d78;
+            color: #fff;
+        }
+
+        .chart-milestone.gold {
+            background: gold;
+            color: #000;
+        }
+
+        .chart-milestone::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 5px solid #46f862;
+        }
+        .chart-milestone.pink::after { border-top-color: #fd3d78; }
+        .chart-milestone.gold::after { border-top-color: gold; }
+
+        /* Interactive milestone buttons */
+        .chart-milestone {
+            cursor: pointer;
+            border: none;
+            transition: transform 0.15s, box-shadow 0.15s, filter 0.15s;
+        }
+        .chart-milestone:hover {
+            transform: translateX(-50%) translateY(-2px) scale(1.08);
+            filter: brightness(1.25);
+            box-shadow: 0 3px 12px rgba(0,0,0,0.6);
+        }
+        /* Graduation label is right-anchored, no translateX needed */
+        .chart-milestone.right-anchor {
+            transform: none;
+        }
+        .chart-milestone.right-anchor:hover {
+            transform: translateY(-2px) scale(1.08);
+        }
+        .chart-milestone.right-anchor::after {
+            left: auto;
+            right: 12px;
+            transform: none;
+        }
+        .chart-milestone:focus-visible {
+            outline: 2px solid #fff;
+            outline-offset: 2px;
+        }
+
+        /* Interactive SVG dots */
+        .milestone-dot {
+            cursor: pointer;
+            transition: r 0.15s;
+        }
+        .milestone-dot:hover { r: 8; }
+
+        /* "You are here" cursor label */
+        .chart-cursor-label {
+            position: absolute;
+            bottom: 0;
+            font-family: "Saira Semi Condensed", sans-serif;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            color: #fff;
+            background: #4d6fff;
+            border-radius: 3px;
+            padding: 2px 6px;
+            transform: translateX(-50%);
+            pointer-events: none;
+        }
+
+        /* X-axis year labels */
+        .chart-xaxis {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0 10px;
+            pointer-events: none;
+        }
+
+        .chart-xaxis-label {
+            font-family: "Saira Semi Condensed", sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: rgba(255,255,255,0.2);
+            width: calc(100% / 6);
+            text-align: center;
+        }
+
+        /* ══════════════════════════════════
+           TERMINAL BODY
+        ══════════════════════════════════ */
+        .term-body {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 0 80px;
+        }
+
+        /* ── Section header row ── */
+        .term-section-head {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 28px 28px 10px;
+            border-bottom: 1px solid #1e2a38;
+        }
+
+        .term-section-label {
+            font-family: "Bebas Neue", sans-serif;
+            font-size: 20px;
+            letter-spacing: 3px;
+            color: #4d6fff;
+        }
+
+        .term-section-line {
+            flex: 1;
+            height: 1px;
+            background: #1e2a38;
+        }
+
+        .term-section-count {
+            font-family: "Saira Semi Condensed", sans-serif;
+            font-size: 12px;
+            color: rgba(255,255,255,0.25);
+            letter-spacing: 1px;
+        }
+
+        /* ── Generic data row ── */
+        .term-row {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+            padding: 13px 28px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            transition: background 0.12s;
+        }
+        .term-row:hover { background: rgba(255,255,255,0.03); }
+
+        .term-row-indicator {
+            font-family: "Saira Semi Condensed", sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            color: #46f862;
+            min-width: 18px;
+        }
+
+        .term-row-label {
+            font-family: "Bebas Neue", sans-serif;
+            font-size: 17px;
+            letter-spacing: 1.5px;
+            color: #fff;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .term-row-label.gold { color: gold; }
+        .term-row-label.pink { color: #fd3d78; }
+
+        .term-row-sub {
+            font-family: "Pridi", serif;
+            font-weight: 300;
+            font-size: 13px;
+            color: rgba(255,255,255,0.45);
+            line-height: 1.5;
+            flex: 2;
+            min-width: 0;
+        }
+
+        .term-row-stat {
+            font-family: "Saira Semi Condensed", sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            color: rgba(255,255,255,0.4);
+            white-space: nowrap;
+            text-align: right;
+            min-width: 120px;
+        }
+
+        .term-row-stat.green { color: #46f862; }
+        .term-row-stat.gold  { color: gold; }
+        .term-row-stat.pink  { color: #fd3d78; }
+        .term-row-stat.blue  { color: #4d6fff; }
+
+        /* ── Expanded detail block under a row ── */
+        .term-row-detail {
+            padding: 4px 28px 14px 58px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .term-detail-line {
+            font-family: "Pridi", serif;
+            font-weight: 300;
+            font-size: 13px;
+            color: rgba(255,255,255,0.45);
+            line-height: 1.7;
+            padding-left: 12px;
+            position: relative;
+        }
+        .term-detail-line::before {
+            content: "›";
+            position: absolute;
+            left: 0;
+            color: #4d6fff;
+        }
+
+        /* ── Skill tags row ── */
+        .term-skill-wrap {
+            padding: 18px 28px 24px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .term-skill-tag {
+            font-family: "Saira Semi Condensed", sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #46f862;
+            border: 1px solid rgba(70, 248, 98, 0.4);
+            border-radius: 20px;
+            padding: 4px 14px;
+            transition: background 0.15s, color 0.15s;
+        }
+        .term-skill-tag:hover {
+            background: #46f862;
+            color: #000;
+        }
+
+        /* ── Education block ── */
+        .term-edu-block {
+            padding: 16px 28px 20px 46px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .term-edu-school {
+            font-family: "Bebas Neue", sans-serif;
+            font-size: 20px;
+            letter-spacing: 2px;
+            color: #fd3d78;
+            margin-bottom: 3px;
+        }
+
+        .term-edu-degree {
+            font-family: "Saira Semi Condensed", sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: rgba(255,255,255,0.85);
+            margin-bottom: 8px;
+        }
+
+        .term-edu-meta {
+            font-family: "Pridi", serif;
+            font-weight: 300;
+            font-size: 13px;
+            color: rgba(253, 61, 120, 0.65);
+            line-height: 1.65;
+        }
+
+        .term-edu-meta strong { color: #fd3d78; }
+
+        /* ── Venture featured row ── */
+        .term-venture-row {
+            padding: 18px 28px;
+            border-bottom: 1px solid rgba(255,215,0,0.12);
+            background: rgba(255,215,0,0.03);
+            transition: background 0.12s;
+        }
+        .term-venture-row:hover { background: rgba(255,215,0,0.07); }
+
+        .term-venture-head {
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+            margin-bottom: 6px;
+        }
+
+        .term-venture-badge {
+            font-family: "Saira Semi Condensed", sans-serif;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #000;
+            background: gold;
+            border-radius: 3px;
+            padding: 2px 7px;
+        }
+
+        .term-venture-name {
+            font-family: "Bebas Neue", sans-serif;
+            font-size: 20px;
+            letter-spacing: 2px;
+            color: gold;
+        }
+
+        .term-venture-stat {
+            font-family: "Saira Semi Condensed", sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            color: gold;
+            margin-left: auto;
+        }
+
+        .term-venture-desc {
+            font-family: "Pridi", serif;
+            font-weight: 300;
+            font-size: 13px;
+            color: rgba(255,215,0,0.6);
+            line-height: 1.6;
+        }
+
+        /* ── Footer status bar ── */
+        .term-statusbar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 26px;
+            background: #0b1017;
+            border-top: 1px solid #1e2a38;
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            gap: 20px;
+            z-index: 90;
+        }
+
+        .term-status-item {
+            font-family: "Saira Semi Condensed", sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: rgba(255,255,255,0.3);
+        }
+
+        .term-status-item.green { color: #46f862; }
+        .term-status-item.blue  { color: #4d6fff; }
+
+        /* ── Responsive ── */
+        @media (max-width: 700px) {
+            .term-row { flex-wrap: wrap; }
+            .term-row-stat { min-width: unset; }
+            .chart-price { display: none; }
+            .chart-change { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-content">
+
+        <!-- ══ TERMINAL TOOLBAR ══ -->
+        <div class="term-toolbar">
+            <span class="term-ticker">TCJ &nbsp;▲</span>
+            <div class="term-divider"></div>
+            <a href="#v2-hero"         class="term-tab active" id="tab-hero">Overview</a>
+            <a href="#v2-education"    class="term-tab" id="tab-education">Education</a>
+            <a href="#v2-ventures"     class="term-tab" id="tab-ventures">Ventures</a>
+            <a href="#v2-experience"   class="term-tab" id="tab-experience">Experience</a>
+            <a href="#v2-achievements" class="term-tab" id="tab-achievements">Achievements</a>
+            <a href="#v2-skills"       class="term-tab" id="tab-skills">Skills</a>
+            <a href="index.html" class="term-back">← Home</a>
+        </div>
+
+        <!-- ══ CHART HERO ══ -->
+        <section id="v2-hero" class="chart-hero fade-in">
+            <div class="chart-meta-row">
+                <span class="chart-symbol">TYOSHI CHIKAYAMA-JACKSON</span>
+                <span class="chart-price">$20K</span>
+                <span class="chart-change">▲ Capital Raised</span>
+            </div>
+            <div class="chart-name">PURDUE UNIVERSITY · MITCH DANIELS SCHOOL OF BUSINESS · BUSINESS ANALYTICS &amp; INFORMATION MANAGEMENT</div>
+            <div class="chart-contact-row" style="margin-top:6px;">
+                Evansville, IN &nbsp;·&nbsp; tchikaya@purdue.edu &nbsp;·&nbsp; 812.550.8813 &nbsp;·&nbsp;
+                <a href="https://linkedin.com/in/tyoshi-chikayama-jackson" target="_blank" rel="noopener">linkedin.com/in/tyoshi-chikayama-jackson</a>
+            </div>
+
+            <!-- SVG Career Chart -->
+            <div class="chart-svg-wrap">
+                <svg viewBox="0 0 1000 260" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <defs>
+                        <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%"   stop-color="#46f862" stop-opacity="0.22"/>
+                            <stop offset="100%" stop-color="#46f862" stop-opacity="0"/>
+                        </linearGradient>
+                    </defs>
+
+                    <!-- Horizontal gridlines -->
+                    <line x1="0" y1="52"  x2="1000" y2="52"  stroke="#1e2a38" stroke-width="1"/>
+                    <line x1="0" y1="104" x2="1000" y2="104" stroke="#1e2a38" stroke-width="1"/>
+                    <line x1="0" y1="156" x2="1000" y2="156" stroke="#1e2a38" stroke-width="1"/>
+                    <line x1="0" y1="208" x2="1000" y2="208" stroke="#1e2a38" stroke-width="1"/>
+
+                    <!-- "You are here" vertical dotted cursor — mid 2026 = x≈417 -->
+                    <line x1="417" y1="0" x2="417" y2="260" stroke="#4d6fff" stroke-width="1.5" stroke-dasharray="4 4"/>
+
+                    <!-- Year divider tick lines (2024–2029, spacing=167) -->
+                    <line x1="83"  y1="0" x2="83"  y2="260" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+                    <line x1="250" y1="0" x2="250" y2="260" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+                    <line x1="417" y1="0" x2="417" y2="260" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+                    <line x1="583" y1="0" x2="583" y2="260" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+                    <line x1="750" y1="0" x2="750" y2="260" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+                    <line x1="917" y1="0" x2="917" y2="260" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+
+                    <!-- Gradient fill under line -->
+                    <polygon
+                        points="0,260 83,235 250,200 380,165 417,158 583,115 680,88 917,35 1000,260"
+                        fill="url(#chartGrad)"/>
+
+                    <!-- Main ascending line -->
+                    <polyline
+                        points="0,260 83,235 250,200 380,165 583,115 680,88 917,35"
+                        fill="none"
+                        stroke="#46f862"
+                        stroke-width="2.5"
+                        stroke-linejoin="round"
+                        stroke-linecap="round"/>
+
+                    <!-- Milestone dots (x positions match label left% below) -->
+                    <!-- 2024 PoliTech: x=83  (8.3%)  -->
+                    <circle class="milestone-dot" cx="83"  cy="235" r="5" fill="#fd3d78" stroke="#060a0f" stroke-width="2" data-target="v2-ventures"/>
+                    <!-- 2024 CS Intern: x=250 (25%)   -->
+                    <circle class="milestone-dot" cx="250" cy="200" r="5" fill="#46f862" stroke="#060a0f" stroke-width="2" data-target="v2-experience"/>
+                    <!-- 2025 BOP/UE: x=380  (38%)   -->
+                    <circle class="milestone-dot" cx="380" cy="165" r="5" fill="gold"    stroke="#060a0f" stroke-width="2" data-target="v2-achievements"/>
+                    <!-- 2026 Mktg Intern: x=500 (50%) -->
+                    <circle class="milestone-dot" cx="500" cy="128" r="5" fill="#46f862" stroke="#060a0f" stroke-width="2" data-target="v2-experience"/>
+                    <!-- 2026 TA/GES: x=600  (60%)   -->
+                    <circle class="milestone-dot" cx="600" cy="108" r="5" fill="#46f862" stroke="#060a0f" stroke-width="2" data-target="v2-achievements"/>
+                    <!-- 2029 Graduation: x=917 (91.7%) -->
+                    <circle class="milestone-dot" cx="917" cy="35"  r="5" fill="#fd3d78" stroke="#060a0f" stroke-width="2" data-target="v2-education"/>
+                </svg>
+
+                <!-- Milestone labels — interactive buttons (left% = dot cx / 10) -->
+                <button class="chart-milestone pink"  style="left:8.3%; top: calc(90% - 28px);" data-target="v2-ventures">2024 — PoliTech Founded</button>
+                <button class="chart-milestone"       style="left:25%;  top: calc(77% - 28px);" data-target="v2-experience">2024 — CS Intern</button>
+                <button class="chart-milestone gold"  style="left:38%;  top: calc(63% - 28px);" data-target="v2-achievements">2025 — BOP Scholar · UE Finalist</button>
+                <button class="chart-milestone"       style="left:50%;  top: calc(49% - 28px);" data-target="v2-experience">2026 — Marketing Intern</button>
+                <button class="chart-milestone"       style="left:60%;  top: calc(41% - 28px);" data-target="v2-achievements">2026 — TA &amp; GES Delegate</button>
+                <!-- "You are here" cursor label — mid 2026 = 41.7% -->
+                <span class="chart-cursor-label" style="left:41.7%; bottom:4px;">6/12/2026 &nbsp;·&nbsp; NOW</span>
+                <!-- Graduation: cx=917 = 91.7% — use right-anchor to avoid clipping -->
+                <button class="chart-milestone pink right-anchor" style="left:auto; right:6%; top: calc(13% - 28px);" data-target="v2-education">2029 — Graduation</button>
+
+                <!-- X-axis year labels -->
+                <div class="chart-xaxis">
+                    <span class="chart-xaxis-label">2024</span>
+                    <span class="chart-xaxis-label">2025</span>
+                    <span class="chart-xaxis-label">2026</span>
+                    <span class="chart-xaxis-label">2027</span>
+                    <span class="chart-xaxis-label">2028</span>
+                    <span class="chart-xaxis-label">2029</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ══ DATA SECTIONS ══ -->
+        <div class="term-body">
+
+            <!-- ── Education ── -->
+            <div id="v2-education">
+                <div class="term-section-head">
+                    <span class="term-section-label">Education</span>
+                    <div class="term-section-line"></div>
+                    <span class="term-section-count">1 ENTRY</span>
+                </div>
+
+                <div class="term-edu-block">
+                    <div class="term-edu-school">Purdue University, Mitch Daniels School of Business — West Lafayette, IN</div>
+                    <div class="term-edu-degree">
+                        B.S. Business Analytics &amp; Information Management &nbsp;·&nbsp; GPA 3.67 &nbsp;·&nbsp; Expected May 2029<br>
+                        Minor: Finance &nbsp;&nbsp;·&nbsp;&nbsp; Certificate: Entrepreneurship
+                    </div>
+                    <div class="term-edu-meta">
+                        <strong>Honors &amp; Awards:</strong> Roland Parrish Charitable Foundation Scholar · Dean's List (2) · Semester Honors · College Board First Generation &amp; African American Scholar<br>
+                        <strong>Relevant Coursework:</strong> AI Data Analysis · Case Management · Accounting · Finance · Entrepreneurship
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Ventures ── -->
+            <div id="v2-ventures">
+                <div class="term-section-head">
+                    <span class="term-section-label">Ventures</span>
+                    <div class="term-section-line"></div>
+                    <span class="term-section-count">1 ACTIVE</span>
+                </div>
+
+                <div class="term-venture-row">
+                    <div class="term-venture-head">
+                        <span class="term-venture-badge">FOUNDER &amp; CEO</span>
+                        <span class="term-venture-name">PoliTech, LLC — Evansville, IN</span>
+                        <span class="term-venture-stat">+$20,000 RAISED</span>
+                    </div>
+                    <div class="term-venture-desc">
+                        Develops a platform closing the gap between politicians and their constituents.
+                        Secured $20,000 in capital within the first six months of operation to fund development. &nbsp;·&nbsp; Sept 2024 – Present
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Experience ── -->
+            <div id="v2-experience">
+                <div class="term-section-head">
+                    <span class="term-section-label">Experience</span>
+                    <div class="term-section-line"></div>
+                    <span class="term-section-count">3 ROLES</span>
+                </div>
+
+                <!-- Role 1 -->
+                <div class="term-row">
+                    <span class="term-row-indicator">▲</span>
+                    <span class="term-row-label">Purdue University — College of Computer Science</span>
+                    <span class="term-row-sub">Marketing and Analytics Intern</span>
+                    <span class="term-row-stat blue">Feb 2026 – Present</span>
+                </div>
+                <div class="term-row-detail">
+                    <div class="term-detail-line">Designs branded social media and posts to promote achievements, news, and events while maintaining a professional identity</div>
+                    <div class="term-detail-line">Manages an online presence across 3 major platforms with over 12,000 followers</div>
+                </div>
+
+                <!-- Role 2 -->
+                <div class="term-row">
+                    <span class="term-row-indicator">▲</span>
+                    <span class="term-row-label">Nextech Catapult — Evansville, IN</span>
+                    <span class="term-row-sub">Teaching Assistant &amp; AI Integration Specialist</span>
+                    <span class="term-row-stat blue">June – July 2026</span>
+                </div>
+                <div class="term-row-detail">
+                    <div class="term-detail-line">Taught HTML, CSS, and JavaScript to 20 high school students, furthering their understanding of code and AI tools</div>
+                    <div class="term-detail-line">Provided technical support for daily operations and events</div>
+                </div>
+
+                <!-- Role 3 -->
+                <div class="term-row">
+                    <span class="term-row-indicator">▲</span>
+                    <span class="term-row-label">Nextech Catapult — Evansville, IN</span>
+                    <span class="term-row-sub">Computer Science Intern</span>
+                    <span class="term-row-stat blue">June – July 2024</span>
+                </div>
+                <div class="term-row-detail">
+                    <div class="term-detail-line">Created a web portfolio over 140 hours, gaining proficiency in HTML, CSS, and foundational JavaScript</div>
+                    <div class="term-detail-line">Coded three functional websites for practical experience and to support new ventures</div>
+                </div>
+            </div>
+
+            <!-- ── Achievements ── -->
+            <div id="v2-achievements">
+                <div class="term-section-head">
+                    <span class="term-section-label">Achievements</span>
+                    <div class="term-section-line"></div>
+                    <span class="term-section-count">7 ENTRIES</span>
+                </div>
+
+                <div class="term-row">
+                    <span class="term-row-indicator">+</span>
+                    <span class="term-row-label">General Engagement Summit</span>
+                    <span class="term-row-sub">Delegate &amp; Alumni &nbsp;·&nbsp; 1 of 25 selected globally &nbsp;·&nbsp; Evanston, IL</span>
+                    <span class="term-row-stat green">Apr 2026</span>
+                </div>
+
+                <div class="term-row">
+                    <span class="term-row-indicator">+</span>
+                    <span class="term-row-label">Nextech Navigate Conference</span>
+                    <span class="term-row-sub">Panel Speaker &amp; Representative &nbsp;·&nbsp; 1 of 3 selected &nbsp;·&nbsp; 600+ students reached</span>
+                    <span class="term-row-stat green">Feb 2026</span>
+                </div>
+
+                <div class="term-row">
+                    <span class="term-row-indicator">+</span>
+                    <span class="term-row-label">BOP High School Weekend</span>
+                    <span class="term-row-sub">Volunteer &nbsp;·&nbsp; Mentored 7 prospective students &nbsp;·&nbsp; 100% personalized engagement &nbsp;·&nbsp; West Lafayette, IN</span>
+                    <span class="term-row-stat green">Mar 2026</span>
+                </div>
+
+                <div class="term-row">
+                    <span class="term-row-indicator">+</span>
+                    <span class="term-row-label">Society of Minority Managers</span>
+                    <span class="term-row-sub">Club Member &nbsp;·&nbsp; Raised $2,820 for sickle cell research &nbsp;·&nbsp; West Lafayette, IN</span>
+                    <span class="term-row-stat green">Sept 2025 – Present</span>
+                </div>
+
+                <div class="term-row">
+                    <span class="term-row-indicator">+</span>
+                    <span class="term-row-label">Dr. Cornell A. Bell BOP</span>
+                    <span class="term-row-sub">Scholar &amp; Participant &nbsp;·&nbsp; 1 of 20 selected &nbsp;·&nbsp; Business ethics &amp; analytics &nbsp;·&nbsp; West Lafayette, IN</span>
+                    <span class="term-row-stat gold">June – Aug 2025</span>
+                </div>
+
+                <div class="term-row">
+                    <span class="term-row-indicator">+</span>
+                    <span class="term-row-label">Indiana Statehouse General Assembly</span>
+                    <span class="term-row-sub">Student Page &nbsp;·&nbsp; Authored mock legislation &nbsp;·&nbsp; Indianapolis, IN</span>
+                    <span class="term-row-stat gold">Mar 2025</span>
+                </div>
+
+                <div class="term-row">
+                    <span class="term-row-indicator">+</span>
+                    <span class="term-row-label pink">UE Changemaker Challenge</span>
+                    <span class="term-row-sub">Top 20 Semifinalist &amp; Top 6 Finalist &nbsp;·&nbsp; Pitched to 500+ &nbsp;·&nbsp; Top 6 of 50 &nbsp;·&nbsp; Evansville, IN</span>
+                    <span class="term-row-stat pink">Jan 2025</span>
+                </div>
+            </div>
+
+            <!-- ── Skills ── -->
+            <div id="v2-skills">
+                <div class="term-section-head">
+                    <span class="term-section-label">Skills</span>
+                    <div class="term-section-line"></div>
+                    <span class="term-section-count">10 TAGS</span>
+                </div>
+
+                <div class="term-skill-wrap">
+                    <span class="term-skill-tag">AI Data Analysis</span>
+                    <span class="term-skill-tag">Case Management</span>
+                    <span class="term-skill-tag">Accounting</span>
+                    <span class="term-skill-tag">Finance</span>
+                    <span class="term-skill-tag">Entrepreneurship</span>
+                    <span class="term-skill-tag">Marketing &amp; Social Media Analytics</span>
+                    <span class="term-skill-tag">Public Speaking</span>
+                    <span class="term-skill-tag">HTML</span>
+                    <span class="term-skill-tag">CSS</span>
+                    <span class="term-skill-tag">JavaScript</span>
+                </div>
+            </div>
+
+        </div><!-- /term-body -->
+
+    </div><!-- /page-content -->
+
+    <!-- ══ STATUS BAR ══ -->
+    <div class="term-statusbar">
+        <span class="term-status-item green">● LIVE</span>
+        <span class="term-status-item">TCJ · PORTFOLIO v2.0</span>
+        <span class="term-status-item blue">PURDUE UNIVERSITY</span>
+        <span class="term-status-item" style="margin-left:auto;">GPA 3.67 &nbsp;·&nbsp; EXP MAY 2029</span>
+    </div>
+
+    <script>
+        // ── Smooth scroll to section ──
+        function scrollToSection(targetId) {
+            const el = document.getElementById(targetId);
+            if (!el) return;
+            const toolbar = document.querySelector('.term-toolbar');
+            const offset = toolbar ? toolbar.offsetHeight + 8 : 54;
+            const top = el.getBoundingClientRect().top + window.scrollY - offset;
+            window.scrollTo({ top, behavior: 'smooth' });
+        }
+
+        // Milestone label buttons
+        document.querySelectorAll('.chart-milestone[data-target]').forEach(btn => {
+            btn.addEventListener('click', () => scrollToSection(btn.dataset.target));
+        });
+
+        // SVG milestone dots
+        document.querySelectorAll('.milestone-dot[data-target]').forEach(dot => {
+            dot.addEventListener('click', () => scrollToSection(dot.dataset.target));
+        });
+
+        // ── Active toolbar tab on scroll ──
+        const sections = [
+            { id: 'v2-hero',         tab: 'tab-hero' },
+            { id: 'v2-education',    tab: 'tab-education' },
+            { id: 'v2-ventures',     tab: 'tab-ventures' },
+            { id: 'v2-experience',   tab: 'tab-experience' },
+            { id: 'v2-achievements', tab: 'tab-achievements' },
+            { id: 'v2-skills',       tab: 'tab-skills' },
+        ];
+
+        function updateActiveTabs() {
+            let current = sections[0].tab;
+            const scrollY = window.scrollY + 130;
+            for (const s of sections) {
+                const el = document.getElementById(s.id);
+                if (el && el.offsetTop <= scrollY) current = s.tab;
+            }
+            sections.forEach(s => {
+                const tab = document.getElementById(s.tab);
+                if (tab) tab.classList.toggle('active', s.tab === current);
+            });
+        }
+
+        window.addEventListener('scroll', updateActiveTabs, { passive: true });
+        updateActiveTabs();
+    </script>
+</body>
+</html>
