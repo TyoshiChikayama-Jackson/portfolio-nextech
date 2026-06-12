@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact — Tyoshi Chikayama-Jackson</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Staatliches&family=Bebas+Neue&family=Saira+Semi+Condensed:wght@100;200;300;400;500;600;700;800;900&family=Pridi:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="topnavbar">
+        <a href="index.html">Home</a>
+        <a href="about.html">About Me</a>
+        <a href="skills.html">Accomplishments &amp; Skills</a>
+        <a href="future.html">Future</a>
+        <a href="projects.html">Projects</a>
+        <a href="contact.html" class="active">Contact</a>
+    </nav>
+
+    <div class="page-content fade-in">
+        <div class="section-heading-wrap">
+            <h1 class="section-heading" style="color:#46f862; border:2px solid #46f862;">Contact Me</h1>
+        </div>
+
+        <div class="contact-layout">
+            <div class="contact-form-wrap">
+                <!-- Replace YOUR_ID with your actual Formspree form ID -->
+                <form method="POST" action="https://formspree.io/f/YOUR_ID">
+                    <div>
+                        <label for="Name">Your Full Name</label>
+                        <input type="text" id="Name" name="Name" required>
+                    </div>
+                    <div>
+                        <label for="Email">Your Email Address</label>
+                        <input type="email" id="Email" name="Email" required>
+                    </div>
+                    <div>
+                        <label for="Message">Your Message</label>
+                        <textarea id="Message" name="Message" rows="6" maxlength="3000" required></textarea>
+                    </div>
+                    <button type="submit" class="btn-send">Send Message</button>
+                </form>
+                <p class="works-cited">
+                    <a href="https://docs.google.com/document/d/1XIU5Pp6925IwmFXY56qRgQ1cghBn5CrrQR8RPCuV5GU/edit?usp=sharing" target="_blank">Works Cited</a>
+                </p>
+            </div>
+
+            <div class="contact-socials">
+                <a href="https://www.linkedin.com/in/tyoshi-chikayama-jackson/" target="_blank" rel="noopener noreferrer" class="social-item">
+                    <img src="assets/download (1).png" alt="LinkedIn logo">
+                    <span>LinkedIn</span>
+                </a>
+                <a href="https://github.com/TyoshiChikayama-Jackson/portfolio-nextech" target="_blank" rel="noopener noreferrer" class="social-item">
+                    <img src="assets/download (2).png" alt="GitHub logo">
+                    <span>GitHub</span>
+                </a>
+                <div class="social-item" style="cursor:default;">
+                    <img src="assets/download (3).png" alt="Email icon">
+                    <span>tyoshijackson@gmail.com</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
